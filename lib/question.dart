@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class Question extends StatelessWidget {
   final String questionText;
 
-  Question(this.questionText); // Constructor
+  const Question(this.questionText, {super.key}); // Constructor
 
   @override
   Widget build(BuildContext context) {
