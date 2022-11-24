@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
 import './result.dart';
 import './quiz.dart';
+import 'package:flutter/material.dart';
 
 void main() => runApp(const MyApp());
 
@@ -14,47 +14,68 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  var _questionIndex = 0;
-
   final _questions = [
     {
       'questionText': 'What is your favorite color?',
-      'answers': ['black', 'red', 'green'],
+      'answers': [
+        {'text': 'Black', 'score': 10},
+        {'text': 'Red', 'score': 5},
+        {'text': 'Green', 'score': 7},
+        {'text': 'Blue', 'score': 1},
+      ],
     },
     {
       'questionText': 'What is your favorite animal?',
-      'answers': ['cat', 'dog', 'axolotl'],
+      'answers': [
+        {'text': 'Cat', 'score': 100},
+        {'text': 'Dog', 'score': 4},
+        {'text': 'Rat', 'score': 0},
+        {'text': 'Axolotl', 'score': 10}
+      ],
     },
     {
       'questionText': 'What is your favorite peepeepoopoo?',
-      'answers': ['dababy', 'bruh', 'aeugh'],
+      'answers': [
+        {'text': 'ligma', 'score': 10},
+        {'text': 'ligma', 'score': 10},
+        {'text': 'ligma', 'score': 10},
+        {'text': 'ligma', 'score': 10},
+      ],
     }
   ];
 
-  void _answerQuestion() {
+  var _questionIndex = 0;
+  var _totalScore = 0;
+
+  void _answerQuestion(int score) {
+    _totalScore += score;
+
     setState(() {
       _questionIndex = _questionIndex + 1;
     });
+  }
 
-    if (_questionIndex < _questions.length) {
-      print("We have more questions!");
-    } else {
-      print("No more questions remaining...");
-    }
+  void _resetQuiz() {
+    setState(() {});
+
+    _questionIndex = 0;
+    _totalScore = 0;
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(title: const Text('My App')),
+        appBar: AppBar(
+          title: const Text('My App'),
+        ),
         body: _questionIndex < _questions.length
             ? Quiz(
                 answerQuestion: _answerQuestion,
                 questionIndex: _questionIndex,
                 questions: _questions,
               )
-            : const Result(),
+            : Result(_totalScore, _resetQuiz),
       ),
     );
   }
